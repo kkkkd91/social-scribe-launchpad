@@ -12,6 +12,7 @@ interface OnboardingContextType {
   userInfo: {
     firstName: string;
     lastName: string;
+    mobileNumber: string;
   };
   websiteLink: string;
   inspirationProfiles: string[];
@@ -25,7 +26,7 @@ interface OnboardingContextType {
   setPostStyle: (style: "standard" | "formatted" | "chunky" | "short" | "emojis") => void;
   setPostFrequency: (frequency: number) => void;
   setLanguage: (language: "english" | "german") => void;
-  setUserInfo: (info: { firstName: string; lastName: string }) => void;
+  setUserInfo: (info: { firstName: string; lastName: string; mobileNumber: string }) => void;
   setWebsiteLink: (link: string) => void;
   setInspirationProfiles: (profiles: string[]) => void;
   addInspirationProfile: (profile: string) => void;
@@ -43,7 +44,7 @@ const OnboardingContext = createContext<OnboardingContextType>({
   postStyle: null,
   postFrequency: null,
   language: null,
-  userInfo: { firstName: "", lastName: "" },
+  userInfo: { firstName: "", lastName: "", mobileNumber: "" },
   websiteLink: "",
   inspirationProfiles: [],
   workspaceName: "",
@@ -74,9 +75,10 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   const [postStyle, setPostStyle] = useState<"standard" | "formatted" | "chunky" | "short" | "emojis" | null>(null);
   const [postFrequency, setPostFrequency] = useState<number | null>(null);
   const [language, setLanguage] = useState<"english" | "german" | null>(null);
-  const [userInfo, setUserInfo] = useState<{ firstName: string; lastName: string }>({
+  const [userInfo, setUserInfo] = useState<{ firstName: string; lastName: string; mobileNumber: string }>({
     firstName: "",
     lastName: "",
+    mobileNumber: "",
   });
   const [websiteLink, setWebsiteLink] = useState("");
   const [inspirationProfiles, setInspirationProfiles] = useState<string[]>([]);
@@ -115,7 +117,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
     setPostStyle(null);
     setPostFrequency(null);
     setLanguage(null);
-    setUserInfo({ firstName: "", lastName: "" });
+    setUserInfo({ firstName: "", lastName: "", mobileNumber: "" });
     setWebsiteLink("");
     setInspirationProfiles([]);
     setWorkspaceName("");

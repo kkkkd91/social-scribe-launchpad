@@ -1,17 +1,14 @@
-
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-type ThemeType = "light" | "dark";
+type ThemeType = "light";
 
 interface ThemeContextType {
   theme: ThemeType;
-  toggleTheme: () => void;
   setTheme: (theme: ThemeType) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType>({
   theme: "light",
-  toggleTheme: () => {},
   setTheme: () => {},
 });
 
@@ -19,36 +16,21 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<ThemeType>("light");
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("socialScribe_theme") as ThemeType | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    
-    const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
-    setTheme(initialTheme);
-    applyTheme(initialTheme);
+    // Always set light theme regardless of preferences
+    setTheme("light");
+    applyTheme("light");
   }, []);
 
   const applyTheme = (newTheme: ThemeType) => {
     const root = window.document.documentElement;
-    
-    if (newTheme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-  };
-
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("socialScribe_theme", newTheme);
-    applyTheme(newTheme);
+    // Always ensure dark mode is removed
+    root.classList.remove("dark");
   };
 
   return (
     <ThemeContext.Provider
       value={{
         theme,
-        toggleTheme,
         setTheme: (newTheme) => {
           setTheme(newTheme);
           localStorage.setItem("socialScribe_theme", newTheme);

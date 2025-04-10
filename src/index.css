@@ -5,85 +5,42 @@
 @layer base {
   :root {
     /* Primary Blues */
-    --primary: 210 100% 44%; /* #0070E0 */
+    --primary: 210 100% 44%; /* #0072CE LinkedIn blue */
     --primary-foreground: 0 0% 100%;
     
     /* Secondary Purples */
-    --secondary: 252 100% 68%; /* #635BFF */
+    --secondary: 252 100% 68%; /* #824FF8 Light purple */
     --secondary-foreground: 0 0% 100%;
     
     /* Accent Greens */
-    --accent: 152 80% 39%; /* #12B76A */
+    --accent: 164 96% 40%; /* #00B183 Bright green */
     --accent-foreground: 0 0% 100%;
     
     /* Neutral Tones */
-    --background: 220 33% 98%; /* #F6F9FC */
-    --foreground: 222 35% 13%; /* #0A2540 */
-    --card: 0 0% 100%; /* #FFFFFF */
+    --background: 0 0% 100%; /* #FFFFFF Pure white */
+    --foreground: 222 35% 13%; /* #162238 Dark blue-gray */
+    --card: 0 0% 100%;
     --card-foreground: 222 35% 13%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 35% 13%;
-    --muted: 220 13% 91%; /* #E6E6E6 */
-    --muted-foreground: 220 13% 65%; /* #9BA2AF */
-    --border: 220 13% 91%; /* #E6E6E6 */
+    --muted: 220 13% 91%; /* #E9EDF3 Light gray */
+    --muted-foreground: 215 22% 48%;
+    --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 210 100% 44%; /* #0070E0 */
+    --ring: 210 100% 44%;
     
     /* Complementary Colors */
-    --destructive: 14 100% 75%; /* #FF9E80 Coral */
-    --destructive-foreground: 222 35% 13%;
-    
-    --radius: 0.5rem;
+    --destructive: 0 100% 60%; /* #FF3B30 Red */
+    --destructive-foreground: 0 0% 100%;
     
     /* Sidebar */
-    --sidebar-background: 0 0% 100%;
+    --sidebar-background: 210 100% 44%; /* Using primary blue */
     --sidebar-foreground: 222 35% 13%;
     --sidebar-primary: 210 100% 44%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 252 100% 68%; /* Using secondary purple instead of accent green */
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 210 100% 44%;
-  }
-
-  .dark {
-    /* Primary Blues */
-    --primary: 212 100% 27%; /* #003087 Dark blue */
-    --primary-foreground: 0 0% 100%;
-    
-    /* Secondary Purples */
-    --secondary: 249 90% 53%; /* #4F46E5 Dark purple */
-    --secondary-foreground: 0 0% 100%;
-    
-    /* Accent Greens */
-    --accent: 164 96% 31%; /* #039E74 Dark green */
-    --accent-foreground: 0 0% 100%;
-    
-    /* Neutral Tones */
-    --background: 224 21% 25%; /* #32325D Darkest gray */
-    --foreground: 0 0% 100%;
-    --card: 224 21% 22%; /* Slightly darker */
-    --card-foreground: 0 0% 100%;
-    --popover: 224 21% 22%;
-    --popover-foreground: 0 0% 100%;
-    --muted: 223 19% 41%; /* #525F7F Dark gray */
-    --muted-foreground: 220 13% 83%;
-    --border: 223 19% 41%;
-    --input: 223 19% 41%;
-    --ring: 210 100% 44%;
-    
-    /* Complementary Colors */
-    --destructive: 40 100% 70%; /* #FFD666 Yellow as destructive in dark mode */
-    --destructive-foreground: 222 35% 13%;
-    
-    /* Sidebar */
-    --sidebar-background: 224 21% 22%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 212 100% 27%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 249 90% 53%; /* Using secondary purple instead of accent green */
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 223 19% 41%;
     --sidebar-ring: 210 100% 44%;
   }
 }

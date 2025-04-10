@@ -1,4 +1,3 @@
-
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +7,7 @@ import { useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const UserInfoStep = () => {
-  const { nextStep, userInfo, setUserInfo } = useOnboarding();
+  const { nextStep, userInfo, setUserInfo, websiteLink, setWebsiteLink } = useOnboarding();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -17,9 +16,10 @@ const UserInfoStep = () => {
       setUserInfo({
         firstName: user.firstName || userInfo.firstName,
         lastName: user.lastName || userInfo.lastName,
+        mobileNumber: userInfo.mobileNumber,
       });
     }
-  }, [user, setUserInfo, userInfo.firstName, userInfo.lastName]);
+  }, [user, setUserInfo, userInfo.firstName, userInfo.lastName, userInfo.mobileNumber]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,6 +52,31 @@ const UserInfoStep = () => {
                 setUserInfo({ ...userInfo, lastName: e.target.value })
               }
               required
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="mobileNumber">Mobile Number</Label>
+            <Input
+              id="mobileNumber"
+              type="tel"
+              placeholder="+1 (555) 123-4567"
+              value={userInfo.mobileNumber}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, mobileNumber: e.target.value })
+              }
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="websiteLink">Website Link</Label>
+            <Input
+              id="websiteLink"
+              type="url"
+              placeholder="https://example.com"
+              value={websiteLink}
+              onChange={(e) => setWebsiteLink(e.target.value)}
             />
           </div>
         </div>

@@ -112,10 +112,10 @@ const Onboarding = () => {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center p-6 z-10">
-        <div className="w-full max-w-2xl mx-auto animate-slide-in-bottom">
-          <div className="glass-card p-8 shadow-xl">
-            {renderStep()}
+      <main className="flex-1 flex flex-col items-center justify-center py-6 z-10 w-full">
+        <div className="w-full max-w-5xl mx-auto px-4 animate-slide-in-bottom">
+          {renderStep()}
+          <div className="mt-8">
             <ProgressSteps currentStep={currentStep} totalSteps={totalSteps} />
           </div>
         </div>
