@@ -1,6 +1,5 @@
-
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "@/lib/toast";
 
 export interface TeamMember {
   id: string;
@@ -38,7 +37,6 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
 
   useEffect(() => {
-    // Load workspaces from localStorage
     const savedWorkspaces = localStorage.getItem("socialScribe_workspaces");
     const savedCurrentWorkspaceId = localStorage.getItem("socialScribe_currentWorkspace");
     
@@ -56,7 +54,6 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const createWorkspace = async (name: string, type: "team" | "individual"): Promise<Workspace> => {
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
     
     const newWorkspace: Workspace = {
@@ -93,7 +90,6 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     role: "admin" | "writer" | "viewer"
   ): Promise<boolean> => {
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
       
       const workspace = workspaces.find((ws) => ws.id === workspaceId);
@@ -107,7 +103,6 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
         return false;
       }
       
-      // Check if email already exists
       if (workspace.members?.some((member) => member.email === email)) {
         toast.error("This email is already invited");
         return false;

@@ -1,5 +1,5 @@
 
-import { SoundWave } from "lucide-react";
+import { Headphones } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -12,7 +12,7 @@ const Logo = ({ className, showText = true, textClassName }: LogoProps) => {
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <div className="flex items-center text-primary">
-        <SoundWave size={24} className="text-primary" />
+        <Headphones size={24} className="text-primary" />
       </div>
       {showText && (
         <span className={cn("font-semibold text-lg", textClassName)}>

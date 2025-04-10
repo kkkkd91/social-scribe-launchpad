@@ -1,6 +1,5 @@
-
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "@/lib/toast";
 
 interface User {
   id: string;
@@ -37,7 +36,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [onboardingComplete, setOnboardingComplete] = useState(false);
 
   useEffect(() => {
-    // Check local storage for saved auth state
     const savedUser = localStorage.getItem("socialScribe_user");
     const savedOnboarding = localStorage.getItem("socialScribe_onboardingComplete");
     
@@ -54,10 +52,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      // Mock login for demonstration
       setIsLoading(true);
       
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
       
       if (email && password) {
@@ -95,7 +91,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       setIsLoading(true);
       
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
       
       if (firstName && lastName && email && password) {
