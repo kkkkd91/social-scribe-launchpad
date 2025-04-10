@@ -14,6 +14,7 @@ import Onboarding from "./pages/Onboarding";
 import Celebrate from "./pages/Celebrate";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import SubscriptionPage from "./pages/dashboard/SubscriptionPage";
 
 const queryClient = new QueryClient();
 

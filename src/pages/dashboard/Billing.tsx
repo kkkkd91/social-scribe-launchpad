@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Billing = () => {
   const plans = [
@@ -12,7 +13,7 @@ const Billing = () => {
       description: "Perfect for individual creators just getting started.",
       features: [
         "1 individual workspace",
-        "3 AI generations per day",
+        "15 AI generations per month",
         "Basic analytics",
         "Limited content templates",
       ],
@@ -31,6 +32,7 @@ const Billing = () => {
         "Advanced analytics",
         "Full template library",
         "Up to 5 team members",
+        "AI image generation",
       ],
       cta: "Upgrade",
       popular: true,
@@ -48,6 +50,7 @@ const Billing = () => {
         "Custom templates",
         "Unlimited team members",
         "Dedicated support",
+        "Advanced AI image generation",
       ],
       cta: "Contact Sales",
       popular: false,
@@ -75,7 +78,7 @@ const Billing = () => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-medium">Free Plan</h3>
-              <p className="text-sm text-muted-foreground">15 credits remaining</p>
+              <p className="text-sm text-muted-foreground">3 credits remaining</p>
             </div>
             <Button variant="outline">Manage Credits</Button>
           </div>
@@ -89,7 +92,7 @@ const Billing = () => {
               </li>
               <li className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-primary mr-2 shrink-0 mt-0.5" />
-                <span>3 AI generations per day</span>
+                <span>15 AI generations per month</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-primary mr-2 shrink-0 mt-0.5" />
@@ -132,13 +135,24 @@ const Billing = () => {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button 
-                className={`w-full ${plan.popular ? "bg-primary hover:bg-primary/90" : ""} ${plan.current ? "bg-muted text-muted-foreground cursor-default" : ""}`}
-                variant={plan.current ? "outline" : plan.popular ? "default" : "outline"}
-                disabled={plan.current}
-              >
-                {plan.cta}
-              </Button>
+              {plan.current ? (
+                <Button 
+                  className="w-full bg-muted text-muted-foreground cursor-default"
+                  variant="outline"
+                  disabled
+                >
+                  {plan.cta}
+                </Button>
+              ) : (
+                <Button 
+                  className={`w-full ${plan.popular ? "bg-primary hover:bg-primary/90" : ""}`}
+                  variant={plan.popular ? "default" : "outline"}
+                  as={Link}
+                  to="/dashboard/subscription"
+                >
+                  {plan.cta}
+                </Button>
+              )}
             </CardFooter>
           </Card>
         ))}

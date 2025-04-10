@@ -14,6 +14,7 @@ import Analytics from "@/pages/dashboard/Analytics";
 import Team from "@/pages/dashboard/Team";
 import Settings from "@/pages/dashboard/Settings";
 import Billing from "@/pages/dashboard/Billing";
+import SubscriptionPage from "@/pages/dashboard/SubscriptionPage";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -60,6 +61,7 @@ const Dashboard = () => {
             <Route path="team" element={<Team />} />
             <Route path="settings" element={<Settings />} />
             <Route path="billing" element={<Billing />} />
+            <Route path="subscription" element={<SubscriptionPage />} />
           </Routes>
         </div>
       </div>
