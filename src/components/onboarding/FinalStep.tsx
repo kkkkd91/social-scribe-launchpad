@@ -66,12 +66,13 @@ const FinalStep = () => {
             onChange={(e) => setWorkspaceName(e.target.value)}
             placeholder="Enter workspace name"
             required
+            className="bg-background/50 border-gray-700"
           />
         </div>
 
         <Button
           onClick={handleCreateWorkspace}
-          className="w-full mt-8"
+          className="w-full mt-8 py-6 bg-indigo-600 hover:bg-indigo-700"
           disabled={isCreating || !workspaceName.trim()}
         >
           {isCreating ? "Creating workspace..." : "Create workspace"}{" "}

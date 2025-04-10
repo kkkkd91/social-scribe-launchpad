@@ -1,10 +1,26 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
 
 const Scraper = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [linkedinUrl, setLinkedinUrl] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [youtubeUrl, setYoutubeUrl] = useState("");
+
+  const handleScrape = (type: 'linkedin' | 'website' | 'youtube') => {
+    setIsLoading(true);
+    
+    // Simulate an API call
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -32,8 +48,24 @@ const Scraper = () => {
             <CardContent>
               <div className="space-y-4">
                 <div className="flex gap-2">
-                  <Input placeholder="Enter LinkedIn profile URL" />
-                  <Button>Analyze</Button>
+                  <Input 
+                    placeholder="Enter LinkedIn profile URL" 
+                    value={linkedinUrl}
+                    onChange={(e) => setLinkedinUrl(e.target.value)}
+                  />
+                  <Button 
+                    onClick={() => handleScrape('linkedin')}
+                    disabled={isLoading || !linkedinUrl}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Analyzing
+                      </>
+                    ) : (
+                      "Analyze"
+                    )}
+                  </Button>
                 </div>
                 <div className="text-center p-12 border rounded-md bg-muted/30">
                   <p className="text-muted-foreground">
@@ -45,7 +77,7 @@ const Scraper = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="website">
+        <TabsContent value="website" className="mt-6">
           <Card>
             <CardHeader>
               <CardTitle>Website/Blog Scraper</CardTitle>
@@ -56,8 +88,24 @@ const Scraper = () => {
             <CardContent>
               <div className="space-y-4">
                 <div className="flex gap-2">
-                  <Input placeholder="Enter website or blog URL" />
-                  <Button>Analyze</Button>
+                  <Input 
+                    placeholder="Enter website or blog URL" 
+                    value={websiteUrl}
+                    onChange={(e) => setWebsiteUrl(e.target.value)}
+                  />
+                  <Button 
+                    onClick={() => handleScrape('website')}
+                    disabled={isLoading || !websiteUrl}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Analyzing
+                      </>
+                    ) : (
+                      "Analyze"
+                    )}
+                  </Button>
                 </div>
                 <div className="text-center p-12 border rounded-md bg-muted/30">
                   <p className="text-muted-foreground">
@@ -69,7 +117,7 @@ const Scraper = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="youtube">
+        <TabsContent value="youtube" className="mt-6">
           <Card>
             <CardHeader>
               <CardTitle>YouTube Video Converter</CardTitle>
@@ -80,8 +128,24 @@ const Scraper = () => {
             <CardContent>
               <div className="space-y-4">
                 <div className="flex gap-2">
-                  <Input placeholder="Enter YouTube video URL" />
-                  <Button>Convert</Button>
+                  <Input 
+                    placeholder="Enter YouTube video URL" 
+                    value={youtubeUrl}
+                    onChange={(e) => setYoutubeUrl(e.target.value)}
+                  />
+                  <Button 
+                    onClick={() => handleScrape('youtube')}
+                    disabled={isLoading || !youtubeUrl}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Converting
+                      </>
+                    ) : (
+                      "Convert"
+                    )}
+                  </Button>
                 </div>
                 <div className="text-center p-12 border rounded-md bg-muted/30">
                   <p className="text-muted-foreground">

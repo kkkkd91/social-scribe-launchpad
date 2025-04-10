@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 
 const WorkspaceTypeStep = () => {
-  const { nextStep, setWorkspaceType } = useOnboarding();
+  const { nextStep, setWorkspaceType, workspaceType } = useOnboarding();
 
   const handleSelectType = (type: "team" | "individual") => {
     setWorkspaceType(type);
@@ -19,7 +19,9 @@ const WorkspaceTypeStep = () => {
 
       <div className="grid md:grid-cols-2 gap-4">
         <Card
-          className="p-8 cursor-pointer border-2 hover:border-primary transition-colors"
+          className={`p-8 cursor-pointer border border-gray-700 bg-gray-900/50 hover:border-indigo-500 transition-colors ${
+            workspaceType === "team" ? "border-indigo-500 ring-1 ring-indigo-500" : ""
+          }`}
           onClick={() => handleSelectType("team")}
         >
           <div className="flex flex-col items-center">
@@ -38,7 +40,9 @@ const WorkspaceTypeStep = () => {
         </Card>
 
         <Card
-          className="p-8 cursor-pointer border-2 hover:border-primary transition-colors"
+          className={`p-8 cursor-pointer border border-gray-700 bg-gray-900/50 hover:border-indigo-500 transition-colors ${
+            workspaceType === "individual" ? "border-indigo-500 ring-1 ring-indigo-500" : ""
+          }`}
           onClick={() => handleSelectType("individual")}
         >
           <div className="flex flex-col items-center">
@@ -59,7 +63,7 @@ const WorkspaceTypeStep = () => {
 
       <Button 
         onClick={() => nextStep()} 
-        className="mt-8"
+        className="mt-8 bg-indigo-600 hover:bg-indigo-700"
       >
         Continue <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
