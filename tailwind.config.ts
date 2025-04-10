@@ -68,9 +68,15 @@ export default {
 					google: "#EA4335",
 				},
 				brand: {
-					purple: "#9b87f5",
-					"purple-dark": "#7E69AB",
-					"purple-light": "#E5DEFF"
+					teal: "#0CCCBA",
+					"teal-dark": "#06ABA0",
+					"teal-light": "#E3FAF8",
+					purple: "#6C5DD3",
+					"purple-dark": "#5646BD",
+					"purple-light": "#F0EEFF",
+					coral: "#FF7D50",
+					"coral-dark": "#E86A3E",
+					"coral-light": "#FFF0EB"
 				}
 			},
 			borderRadius: {
@@ -102,15 +108,42 @@ export default {
 				'slide-out-right': {
 					'0%': { transform: 'translateX(0)' },
 					'100%': { transform: 'translateX(100%)' }
+				},
+				'slide-in-bottom': {
+					'0%': { transform: 'translateY(20px)', opacity: '0' },
+					'100%': { transform: 'translateY(0)', opacity: '1' }
+				},
+				'slide-in-left': {
+					'0%': { transform: 'translateX(-20px)', opacity: '0' },
+					'100%': { transform: 'translateX(0)', opacity: '1' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'spin-slow': {
+					'0%': { transform: 'rotate(0deg)' },
+					'100%': { transform: 'rotate(360deg)' }
+				},
+				'pulse-subtle': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.8' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in': 'fade-in 0.3s ease-out',
+				'fade-in': 'fade-in 0.5s ease-out',
 				'fade-out': 'fade-out 0.3s ease-out',
 				'slide-in-right': 'slide-in-right 0.3s ease-out',
-				'slide-out-right': 'slide-out-right 0.3s ease-out'
+				'slide-out-right': 'slide-out-right 0.3s ease-out',
+				'slide-in-bottom': 'slide-in-bottom 0.5s ease-out',
+				'slide-in-left': 'slide-in-left 0.5s ease-out',
+				'float': 'float 3s ease-in-out infinite',
+				'float-slow': 'float 5s ease-in-out infinite',
+				'float-fast': 'float 2s ease-in-out infinite',
+				'spin-slow': 'spin-slow 8s linear infinite',
+				'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite'
 			}
 		}
 	},

@@ -16,6 +16,7 @@ import InspirationProfilesStep from "@/components/onboarding/InspirationProfiles
 import ChromeExtensionStep from "@/components/onboarding/ChromeExtensionStep";
 import LinkedInConnectionStep from "@/components/onboarding/LinkedInConnectionStep";
 import TeamInviteStep from "@/components/onboarding/TeamInviteStep";
+import { Sparkles, MessageSquare, Zap, Lightbulb, ArrowUpRight } from "lucide-react";
 
 const Onboarding = () => {
   const { isAuthenticated, onboardingComplete } = useAuth();
@@ -64,17 +65,43 @@ const Onboarding = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-950 text-white">
-      <header className="border-b border-gray-800 bg-gray-900 py-4">
+    <div className="min-h-screen flex flex-col relative overflow-hidden bg-gradient-to-b from-background to-primary/5">
+      {/* Floating Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-20 left-[10%] w-12 h-12 rounded-full bg-brand-teal/20 animate-float-slow" />
+        <div className="absolute top-40 right-[15%] w-8 h-8 rounded-full bg-brand-purple/20 animate-float" />
+        <div className="absolute bottom-[30%] left-[20%] w-16 h-16 rounded-full bg-brand-coral/20 animate-float-fast" />
+        <div className="absolute bottom-[15%] right-[25%] w-10 h-10 rounded-full bg-brand-teal/15 animate-float-slow" />
+        
+        <div className="absolute top-[25%] right-[8%]">
+          <Sparkles className="w-8 h-8 text-brand-purple/40 animate-pulse-subtle" />
+        </div>
+        <div className="absolute bottom-[40%] left-[12%]">
+          <MessageSquare className="w-6 h-6 text-brand-teal/40 animate-pulse-subtle" />
+        </div>
+        <div className="absolute top-[35%] left-[5%]">
+          <Zap className="w-7 h-7 text-brand-coral/40 animate-pulse-subtle" />
+        </div>
+        <div className="absolute bottom-[10%] right-[15%]">
+          <Lightbulb className="w-8 h-8 text-brand-purple/40 animate-pulse-subtle" />
+        </div>
+        <div className="absolute top-[15%] left-[30%]">
+          <ArrowUpRight className="w-5 h-5 text-brand-teal/40 animate-spin-slow" />
+        </div>
+      </div>
+
+      <header className="border-b border-border/40 backdrop-blur-sm bg-background/80 py-4 z-10">
         <div className="container max-w-7xl mx-auto px-4">
           <Logo />
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center p-4 bg-gradient-to-b from-gray-950 to-gray-900">
-        <div className="w-full max-w-2xl mx-auto">
-          {renderStep()}
-          <ProgressSteps currentStep={currentStep} totalSteps={totalSteps} />
+      <main className="flex-1 flex flex-col items-center justify-center p-4 z-10">
+        <div className="w-full max-w-2xl mx-auto animate-slide-in-bottom">
+          <div className="glass-card p-8 shadow-lg">
+            {renderStep()}
+            <ProgressSteps currentStep={currentStep} totalSteps={totalSteps} />
+          </div>
         </div>
       </main>
     </div>
