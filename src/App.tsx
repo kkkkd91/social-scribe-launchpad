@@ -1,47 +1,55 @@
-
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import { WorkspaceProvider } from "@/contexts/WorkspaceContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
+import { WorkspaceProvider } from "@/contexts/WorkspaceContext";
+import RequireAuth from "@/components/auth/RequireAuth";
+import RequireOnboarding from "@/components/auth/RequireOnboarding";
+import Landing from "@/pages/Landing";
+import Dashboard from "@/pages/Dashboard";
+import Onboarding from "@/pages/Onboarding";
+import Features from "@/pages/Features";
+import Pricing from "@/pages/Pricing";
+import Testimonials from "@/pages/Testimonials";
+import Celebrate from "@/pages/Celebrate";
+import NotFound from "@/pages/NotFound";
 
-import Landing from "./pages/Landing";
-import Onboarding from "./pages/Onboarding";
-import Celebrate from "./pages/Celebrate";
-import Dashboard from "./pages/Dashboard";
-import NotFound from "./pages/NotFound";
-import SubscriptionPage from "./pages/dashboard/SubscriptionPage";
-
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const App = () => {
+  return (
     <ThemeProvider>
       <AuthProvider>
-        <WorkspaceProvider>
-          <OnboardingProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
-                <Routes>
-                  <Route path="/" element={<Landing />} />
+        <OnboardingProvider>
+          <WorkspaceProvider>
+            <Router>
+              <Routes>
+                {/* Public routes */}
+                <Route path="/" element={<Landing />} />
+                <Route path="/features" element={<Features />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/testimonials" element={<Testimonials />} />
+
+                {/* Protected routes */}
+                <Route element={<RequireAuth />}>
+                  <Route element={<RequireOnboarding />}>
+                    <Route path="/dashboard/*" element={<Dashboard />} />
+                  </Route>
                   <Route path="/onboarding" element={<Onboarding />} />
                   <Route path="/celebrate" element={<Celebrate />} />
-                  <Route path="/dashboard/*" element={<Dashboard />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </BrowserRouter>
-            </TooltipProvider>
-          </OnboardingProvider>
-        </WorkspaceProvider>
+                </Route>
+
+                {/* Fallback routes */}
+                <Route path="/404" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/404" replace />} />
+              </Routes>
+            </Router>
+            
+            <Toaster position="bottom-right" />
+          </WorkspaceProvider>
+        </OnboardingProvider>
       </AuthProvider>
     </ThemeProvider>
-  </QueryClientProvider>
-);
+  );
+};
 
 export default App;

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
@@ -7,19 +6,26 @@ import { useAuth } from "@/contexts/AuthContext";
 import Logo from "./Logo";
 import LoginForm from "./auth/LoginForm";
 import RegisterForm from "./auth/RegisterForm";
+import { toast } from "@/lib/toast";
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialView?: "login" | "register";
+  onLinkedInLogin?: () => void;
 }
 
-const AuthModal = ({ isOpen, onClose, initialView = "login" }: AuthModalProps) => {
+const AuthModal = ({ isOpen, onClose, initialView = "login", onLinkedInLogin }: AuthModalProps) => {
   const [view, setView] = useState<"login" | "register">(initialView);
   const [isLoading, setIsLoading] = useState(false);
   
   const { login, register, isAuthenticated, onboardingComplete } = useAuth();
   const navigate = useNavigate();
+  
+  // Update view when initialView prop changes
+  useEffect(() => {
+    setView(initialView);
+  }, [initialView]);
   
   // Handle authentication state changes
   useEffect(() => {
@@ -43,6 +49,14 @@ const AuthModal = ({ isOpen, onClose, initialView = "login" }: AuthModalProps) =
     setIsLoading(true);
     await register(firstName, lastName, email, password);
     setIsLoading(false);
+  };
+  
+  const handleLinkedInAuth = () => {
+    if (onLinkedInLogin) {
+      onLinkedInLogin();
+    } else {
+      toast.info("LinkedIn authentication will be implemented soon");
+    }
   };
   
   const toggleView = () => {
@@ -70,13 +84,15 @@ const AuthModal = ({ isOpen, onClose, initialView = "login" }: AuthModalProps) =
             <LoginForm 
               onLogin={handleLogin} 
               onSwitchView={toggleView} 
-              isLoading={isLoading} 
+              isLoading={isLoading}
+              onLinkedInLogin={handleLinkedInAuth}
             />
           ) : (
             <RegisterForm 
               onRegister={handleRegister} 
               onSwitchView={toggleView} 
-              isLoading={isLoading} 
+              isLoading={isLoading}
+              onLinkedInLogin={handleLinkedInAuth}
             />
           )}
         </div>

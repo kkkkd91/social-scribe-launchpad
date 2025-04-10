@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Home,
   PenSquare,
@@ -22,6 +21,7 @@ import { useWorkspace } from "@/contexts/WorkspaceContext";
 const DashboardSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { currentWorkspace } = useWorkspace();
+  const navigate = useNavigate();
 
   const navItems = [
     { 
@@ -84,6 +84,10 @@ const DashboardSidebar = () => {
     }
   );
 
+  const handleCreateClick = () => {
+    navigate('/dashboard/create');
+  };
+
   return (
     <div className={`bg-sidebar border-r border-sidebar-border h-screen transition-all duration-300 flex flex-col ${isCollapsed ? "w-16" : "w-60"}`}>
       <div className="p-4 border-b border-sidebar-border flex items-center justify-between">
@@ -99,9 +103,13 @@ const DashboardSidebar = () => {
       </div>
       
       <div className="p-2">
-        <Button
-          variant="default"
-          className="w-full mb-4 bg-sidebar-primary hover:bg-sidebar-primary/90 text-sidebar-primary-foreground"
+        <NavLink
+          to="/dashboard/create"
+          className={({ isActive }) =>
+            `flex items-center justify-center px-3 py-2 rounded-md mb-4 bg-sidebar-primary hover:bg-sidebar-primary/90 text-sidebar-primary-foreground ${
+              isActive ? "bg-sidebar-primary/80" : ""
+            }`
+          }
         >
           {isCollapsed ? (
             <PenSquare size={18} />
@@ -110,7 +118,7 @@ const DashboardSidebar = () => {
               <PenSquare size={18} className="mr-2" /> Create posts
             </span>
           )}
-        </Button>
+        </NavLink>
         
         <nav className="space-y-1">
           {navItems.map((item) => (

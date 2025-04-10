@@ -67,6 +67,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(newUser);
         localStorage.setItem("socialScribe_user", JSON.stringify(newUser));
         
+        // Check if the user has completed onboarding before
+        const savedOnboarding = localStorage.getItem("socialScribe_onboardingComplete");
+        setOnboardingComplete(savedOnboarding === "true");
+        
         toast.success("Login successful");
         return true;
       }
@@ -102,7 +106,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         };
         
         setUser(newUser);
+        setOnboardingComplete(false);
         localStorage.setItem("socialScribe_user", JSON.stringify(newUser));
+        localStorage.removeItem("socialScribe_onboardingComplete");
         
         toast.success("Registration successful");
         return true;

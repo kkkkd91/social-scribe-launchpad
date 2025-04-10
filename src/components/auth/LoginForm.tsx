@@ -1,17 +1,18 @@
-
 import { useState } from "react";
 import { toast } from "@/lib/toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Linkedin } from "lucide-react";
 
 interface LoginFormProps {
   onLogin: (email: string, password: string) => Promise<void>;
   onSwitchView: () => void;
   isLoading: boolean;
+  onLinkedInLogin?: () => void;
 }
 
-const LoginForm = ({ onLogin, onSwitchView, isLoading }: LoginFormProps) => {
+const LoginForm = ({ onLogin, onSwitchView, isLoading, onLinkedInLogin }: LoginFormProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -23,6 +24,15 @@ const LoginForm = ({ onLogin, onSwitchView, isLoading }: LoginFormProps) => {
     }
     
     await onLogin(email, password);
+  };
+
+  const handleLinkedInLogin = () => {
+    if (onLinkedInLogin) {
+      onLinkedInLogin();
+    } else {
+      // Fallback if no handler is provided
+      toast.info("LinkedIn login will be available soon");
+    }
   };
 
   return (
@@ -50,7 +60,7 @@ const LoginForm = ({ onLogin, onSwitchView, isLoading }: LoginFormProps) => {
         />
       </div>
       
-      <Button type="submit" className="w-full" disabled={isLoading}>
+      <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white" disabled={isLoading}>
         {isLoading ? "Logging in..." : "Log in"}
       </Button>
       
@@ -63,7 +73,17 @@ const LoginForm = ({ onLogin, onSwitchView, isLoading }: LoginFormProps) => {
       <Button 
         type="button" 
         variant="outline" 
-        className="w-full bg-white dark:bg-gray-950 flex items-center gap-2 mt-4"
+        className="w-full border-[#0A66C2] text-[#0A66C2] hover:bg-[#0A66C2]/10 hover:text-[#0A66C2] flex items-center justify-center gap-2"
+        onClick={handleLinkedInLogin}
+      >
+        <Linkedin className="h-5 w-5" />
+        Continue with LinkedIn
+      </Button>
+      
+      <Button 
+        type="button" 
+        variant="outline" 
+        className="w-full bg-white dark:bg-gray-950 flex items-center gap-2"
       >
         <svg viewBox="0 0 24 24" width="16" height="16">
           <g transform="matrix(1, 0, 0, 1, 27.009, -39.238)">

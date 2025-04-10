@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -67,16 +66,42 @@ export default {
 					linkedin: "#0A66C2",
 					google: "#EA4335",
 				},
+				blue: {
+					DEFAULT: "#0070E0",
+					light: "#1A9CFF",
+					dark: "#003087",
+				},
+				purple: {
+					DEFAULT: "#635BFF",
+					light: "#857DFF",
+					dark: "#4F46E5",
+				},
+				green: {
+					DEFAULT: "#12B76A",
+					light: "#32D583",
+					dark: "#039E74",
+				},
+				neutral: {
+					white: "#FFFFFF",
+					lightest: "#F6F9FC",
+					light: "#E6E6E6",
+					medium: "#9BA2AF",
+					dark: "#525F7F",
+					darkest: "#32325D",
+					black: "#0A2540",
+				},
+				coral: "#FF9E80",
+				yellow: "#FFD666",
 				brand: {
-					teal: "#0CCCBA",
-					"teal-dark": "#06ABA0",
-					"teal-light": "#E3FAF8",
-					purple: "#6C5DD3",
-					"purple-dark": "#5646BD",
-					"purple-light": "#F0EEFF",
-					coral: "#FF7D50",
-					"coral-dark": "#E86A3E",
-					"coral-light": "#FFF0EB"
+					teal: "#0070E0",
+					"teal-dark": "#003087",
+					"teal-light": "#F6F9FC",
+					green: "#12B76A",
+					"green-dark": "#039E74",
+					"green-light": "#E6E6E6",
+					accent: "#635BFF",
+					"accent-dark": "#4F46E5",
+					"accent-light": "#857DFF"
 				}
 			},
 			borderRadius: {

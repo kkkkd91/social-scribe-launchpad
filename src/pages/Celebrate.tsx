@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -87,7 +86,7 @@ const Celebrate = () => {
           <Button 
             size="lg" 
             onClick={() => navigate("/dashboard")}
-            className="text-lg px-8 animate-fade-in"
+            className="text-lg px-8 animate-fade-in bg-primary hover:bg-primary/90 text-white"
           >
             Go to Dashboard ({countdown})
           </Button>

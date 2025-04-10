@@ -1,5 +1,5 @@
-
 import { createContext, useContext, useState, ReactNode, useCallback } from "react";
+import { useAuth } from "./AuthContext";
 
 interface OnboardingContextType {
   currentStep: number;
@@ -15,6 +15,7 @@ interface OnboardingContextType {
   };
   websiteLink: string;
   inspirationProfiles: string[];
+  workspaceName: string;
   
   setCurrentStep: (step: number) => void;
   nextStep: () => void;
@@ -30,11 +31,13 @@ interface OnboardingContextType {
   addInspirationProfile: (profile: string) => void;
   removeInspirationProfile: (index: number) => void;
   resetOnboarding: () => void;
+  canNavigateBack: boolean;
+  setWorkspaceName: (name: string) => void;
 }
 
 const OnboardingContext = createContext<OnboardingContextType>({
   currentStep: 1,
-  totalSteps: 7,
+  totalSteps: 9,
   workspaceType: null,
   preferredTheme: null,
   postStyle: null,
@@ -43,6 +46,7 @@ const OnboardingContext = createContext<OnboardingContextType>({
   userInfo: { firstName: "", lastName: "" },
   websiteLink: "",
   inspirationProfiles: [],
+  workspaceName: "",
   
   setCurrentStep: () => {},
   nextStep: () => {},
@@ -58,9 +62,12 @@ const OnboardingContext = createContext<OnboardingContextType>({
   addInspirationProfile: () => {},
   removeInspirationProfile: () => {},
   resetOnboarding: () => {},
+  canNavigateBack: true,
+  setWorkspaceName: () => {},
 });
 
 export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
+  const { onboardingComplete } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [workspaceType, setWorkspaceType] = useState<"team" | "individual" | null>(null);
   const [preferredTheme, setPreferredTheme] = useState<"light" | "dark" | null>(null);
@@ -73,20 +80,25 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   });
   const [websiteLink, setWebsiteLink] = useState("");
   const [inspirationProfiles, setInspirationProfiles] = useState<string[]>([]);
+  const [workspaceName, setWorkspaceName] = useState("");
   
-  const totalSteps = 7;
+  const totalSteps = 9;
+
+  // User can navigate back only during onboarding
+  const canNavigateBack = !onboardingComplete;
 
   const nextStep = useCallback(() => {
+    console.log(`Moving from step ${currentStep} to ${currentStep + 1}`);
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     }
   }, [currentStep, totalSteps]);
 
   const prevStep = useCallback(() => {
-    if (currentStep > 1) {
+    if (currentStep > 1 && canNavigateBack) {
       setCurrentStep(currentStep - 1);
     }
-  }, [currentStep]);
+  }, [currentStep, canNavigateBack]);
 
   const addInspirationProfile = useCallback((profile: string) => {
     setInspirationProfiles(prev => [...prev, profile]);
@@ -106,6 +118,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
     setUserInfo({ firstName: "", lastName: "" });
     setWebsiteLink("");
     setInspirationProfiles([]);
+    setWorkspaceName("");
   }, []);
 
   return (
@@ -121,6 +134,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
         userInfo,
         websiteLink,
         inspirationProfiles,
+        workspaceName,
         
         setCurrentStep,
         nextStep,
@@ -136,6 +150,8 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
         addInspirationProfile,
         removeInspirationProfile,
         resetOnboarding,
+        canNavigateBack,
+        setWorkspaceName,
       }}
     >
       {children}
