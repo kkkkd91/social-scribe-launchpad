@@ -8,6 +8,7 @@ interface OnboardingContextType {
   preferredTheme: "light" | "dark" | null;
   postStyle: "standard" | "formatted" | "chunky" | "short" | "emojis" | null;
   postFrequency: number | null;
+  language: "english" | "german" | null;
   userInfo: {
     firstName: string;
     lastName: string;
@@ -22,6 +23,7 @@ interface OnboardingContextType {
   setPreferredTheme: (theme: "light" | "dark") => void;
   setPostStyle: (style: "standard" | "formatted" | "chunky" | "short" | "emojis") => void;
   setPostFrequency: (frequency: number) => void;
+  setLanguage: (language: "english" | "german") => void;
   setUserInfo: (info: { firstName: string; lastName: string }) => void;
   setWebsiteLink: (link: string) => void;
   setInspirationProfiles: (profiles: string[]) => void;
@@ -37,6 +39,7 @@ const OnboardingContext = createContext<OnboardingContextType>({
   preferredTheme: null,
   postStyle: null,
   postFrequency: null,
+  language: null,
   userInfo: { firstName: "", lastName: "" },
   websiteLink: "",
   inspirationProfiles: [],
@@ -48,6 +51,7 @@ const OnboardingContext = createContext<OnboardingContextType>({
   setPreferredTheme: () => {},
   setPostStyle: () => {},
   setPostFrequency: () => {},
+  setLanguage: () => {},
   setUserInfo: () => {},
   setWebsiteLink: () => {},
   setInspirationProfiles: () => {},
@@ -62,6 +66,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   const [preferredTheme, setPreferredTheme] = useState<"light" | "dark" | null>(null);
   const [postStyle, setPostStyle] = useState<"standard" | "formatted" | "chunky" | "short" | "emojis" | null>(null);
   const [postFrequency, setPostFrequency] = useState<number | null>(null);
+  const [language, setLanguage] = useState<"english" | "german" | null>(null);
   const [userInfo, setUserInfo] = useState<{ firstName: string; lastName: string }>({
     firstName: "",
     lastName: "",
@@ -97,6 +102,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
     setPreferredTheme(null);
     setPostStyle(null);
     setPostFrequency(null);
+    setLanguage(null);
     setUserInfo({ firstName: "", lastName: "" });
     setWebsiteLink("");
     setInspirationProfiles([]);
@@ -111,6 +117,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
         preferredTheme,
         postStyle,
         postFrequency,
+        language,
         userInfo,
         websiteLink,
         inspirationProfiles,
@@ -122,6 +129,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
         setPreferredTheme,
         setPostStyle,
         setPostFrequency,
+        setLanguage,
         setUserInfo,
         setWebsiteLink,
         setInspirationProfiles,
