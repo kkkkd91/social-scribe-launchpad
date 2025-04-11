@@ -11,9 +11,6 @@ interface Slide {
 
 interface SliderProps {
   slides: Slide[];
-  color: string;
-  textColor: string;
-  accentColor: string;
   sliderType: SliderType;
 }
 
@@ -38,7 +35,7 @@ export const SliderTypeOptions = [
   { value: "loop", label: "Looped Slider" },
 ];
 
-export const SliderTypes = ({ slides, color, textColor, accentColor, sliderType }: SliderProps) => {
+export const SliderTypes = ({ slides, sliderType }: SliderProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [touchStart, setTouchStart] = useState(0);
@@ -156,67 +153,11 @@ export const SliderTypes = ({ slides, color, textColor, accentColor, sliderType 
         }}
         className={`transition-all ${sliderType === "fade" || sliderType === "coverflow" ? "absolute inset-0" : ""}`}
       >
-        {slideData.layout === 'title-only' && (
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-2">{slideData.title}</h2>
-            <div className={`h-1 w-24 mx-auto my-3 ${accentColor}`}></div>
-            <p className="opacity-80">{slideData.content}</p>
-          </div>
-        )}
-        
-        {slideData.layout === 'split' && (
-          <div className="flex flex-col md:flex-row gap-4 items-center h-full">
-            <div className="md:w-1/2">
-              <h2 className="text-xl font-bold mb-2">{slideData.title}</h2>
-              <div className={`h-1 w-16 my-3 ${accentColor}`}></div>
-            </div>
-            <div className="md:w-1/2">
-              <p>{slideData.content}</p>
-            </div>
-          </div>
-        )}
-        
-        {slideData.layout === 'header-content' && (
-          <div>
-            <div className={`${accentColor} h-2 w-16 mb-4`}></div>
-            <h2 className="text-2xl font-bold mb-4">{slideData.title}</h2>
-            <p>{slideData.content}</p>
-          </div>
-        )}
-        
-        {(slideData.layout === 'list' || slideData.layout === 'grid' || slideData.layout === 'image-text') && (
-          <div>
-            <h2 className="text-xl font-bold mb-3">{slideData.title}</h2>
-            <div className={`h-1 w-16 my-3 ${accentColor}`}></div>
-            <p>{slideData.content}</p>
-          </div>
-        )}
-        
-        {slideData.layout === 'cta' && (
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-3">{slideData.title}</h2>
-            <p className="mb-6">{slideData.content}</p>
-            <button className={`${accentColor.replace('bg-', 'bg-opacity-90 bg-')} px-6 py-2 rounded-full font-medium`}>
-              Get Started
-            </button>
-          </div>
-        )}
-
-        {slideData.layout === 'statistic' && (
-          <div className="text-center">
-            <div className="text-6xl font-bold mb-4">{slideData.title}</div>
-            <div className={`h-1 w-16 mx-auto my-3 ${accentColor}`}></div>
-            <p className="text-xl">{slideData.content}</p>
-          </div>
-        )}
-
-        {slideData.layout === 'overlay' && (
-          <div className="relative bg-black bg-opacity-30 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold mb-2">{slideData.title}</h2>
-            <div className={`h-1 w-16 my-3 ${accentColor}`}></div>
-            <p>{slideData.content}</p>
-          </div>
-        )}
+        <div className={`p-6 bg-white border rounded-lg shadow h-full`}>
+          <h2 className="text-xl font-bold mb-2 text-slate-800">{slideData.title}</h2>
+          <div className="h-1 w-16 my-3 bg-primary"></div>
+          <p className="text-gray-700">{slideData.content}</p>
+        </div>
       </div>
     );
   };
@@ -224,7 +165,7 @@ export const SliderTypes = ({ slides, color, textColor, accentColor, sliderType 
   return (
     <div className="w-full">
       <div 
-        className={`relative overflow-hidden ${
+        className={`relative overflow-hidden border rounded-lg ${
           sliderType === "vertical" ? "h-[300px]" : ""
         }`}
         ref={slideRef}
@@ -234,7 +175,7 @@ export const SliderTypes = ({ slides, color, textColor, accentColor, sliderType 
       >
         <div 
           className={`
-            ${color} p-8 ${textColor}
+            bg-white p-4 text-foreground
             ${sliderType === "vertical" ? "" : "aspect-[16/9]"}
             ${sliderType === "fade" || sliderType === "coverflow" ? "relative" : ""}
             ${sliderType === "multi-slide" ? "flex" : ""}
@@ -260,14 +201,14 @@ export const SliderTypes = ({ slides, color, textColor, accentColor, sliderType 
 
         {/* Navigation Arrows */}
         <button 
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 text-white p-2 rounded-full"
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full hover:bg-primary/90 transition-colors"
           onClick={handlePrev}
           disabled={sliderType === "loop" ? false : currentSlide === 0}
         >
           <ArrowLeft size={20} />
         </button>
         <button 
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-30 text-white p-2 rounded-full"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full hover:bg-primary/90 transition-colors"
           onClick={handleNext}
           disabled={
             sliderType === "loop" 
@@ -287,7 +228,7 @@ export const SliderTypes = ({ slides, color, textColor, accentColor, sliderType 
               <button
                 key={index}
                 className={`h-2 w-2 rounded-full ${
-                  currentSlide === index ? "bg-white" : "bg-white bg-opacity-50"
+                  currentSlide === index ? "bg-primary" : "bg-gray-300"
                 }`}
                 onClick={() => handleDotClick(index)}
               />
@@ -298,7 +239,7 @@ export const SliderTypes = ({ slides, color, textColor, accentColor, sliderType 
         {/* Autoplay Controls */}
         {sliderType === "autoplay" && (
           <button 
-            className="absolute left-4 bottom-4 bg-black bg-opacity-30 text-white p-2 rounded-full"
+            className="absolute left-4 bottom-4 bg-primary text-white p-2 rounded-full hover:bg-primary/90 transition-colors"
             onClick={handleTogglePlay}
           >
             {isPlaying ? <Pause size={20} /> : <Play size={20} />}
