@@ -1,87 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import Landing from './pages/Landing';
-import Dashboard from './pages/Dashboard';
-import Onboarding from './pages/Onboarding';
-import Features from './pages/Features';
-import Carousels from "./pages/Carousels";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { OnboardingProvider } from "@/contexts/OnboardingContext";
+import { WorkspaceProvider } from "@/contexts/WorkspaceContext";
+import RequireAuth from "@/components/auth/RequireAuth";
+import RequireOnboarding from "@/components/auth/RequireOnboarding";
+import Landing from "@/pages/Landing";
+import Dashboard from "@/pages/Dashboard";
+import Onboarding from "@/pages/Onboarding";
+import Features from "@/pages/Features";
+import Pricing from "@/pages/Pricing";
+import Testimonials from "@/pages/Testimonials";
+import Celebrate from "@/pages/Celebrate";
+import NotFound from "@/pages/NotFound";
 
-const queryClient = new QueryClient();
-
-function App() {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-    const { isAuthenticated, onboardingComplete } = useAuth();
-
-    if (!isAuthenticated) {
-      return <Navigate to="/" />;
-    }
-
-    if (!onboardingComplete) {
-      return <Navigate to="/onboarding" />;
-    }
-
-    return children;
-  };
-
-  const OnboardingRoute = ({ children }: { children: JSX.Element }) => {
-    const { isAuthenticated, onboardingComplete } = useAuth();
-
-    if (!isAuthenticated) {
-      return <Navigate to="/" />;
-    }
-
-    if (onboardingComplete) {
-      return <Navigate to="/dashboard" />;
-    }
-
-    return children;
-  };
-
+const App = () => {
   return (
     <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/carousels" element={<Carousels />} />
-            <Route path="/features" element={<Features />} />
-            <Route
-              path="/dashboard"
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/onboarding"
-              element={
-                <OnboardingRoute>
-                  <Onboarding />
-                </OnboardingRoute>
-              }
-            />
-          </Routes>
-        </Router>
-      </QueryClientProvider>
+      <AuthProvider>
+        <OnboardingProvider>
+          <WorkspaceProvider>
+            <Router>
+              <Routes>
+                {/* Public routes */}
+                <Route path="/" element={<Landing />} />
+                <Route path="/features" element={<Features />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/testimonials" element={<Testimonials />} />
+
+                {/* Protected routes */}
+                <Route element={<RequireAuth />}>
+                  <Route element={<RequireOnboarding />}>
+                    <Route path="/dashboard/*" element={<Dashboard />} />
+                  </Route>
+                  <Route path="/onboarding" element={<Onboarding />} />
+                  <Route path="/celebrate" element={<Celebrate />} />
+                </Route>
+
+                {/* Fallback routes */}
+                <Route path="/404" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/404" replace />} />
+              </Routes>
+            </Router>
+            
+            <Toaster position="bottom-right" />
+          </WorkspaceProvider>
+        </OnboardingProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
-}
+};
 
 export default App;
