@@ -11,19 +11,21 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    mode === 'development' && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
   },
   build: {
     outDir: "dist",
     assetsDir: "assets",
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: mode === 'development',
+    minify: mode === 'production',
+    target: 'es2015',
     rollupOptions: {
       output: {
         manualChunks: {
@@ -36,4 +38,11 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom', 'axios']
+  },
+  esbuild: {
+    jsxInject: "import React from 'react'",
+    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+  }
 }));
