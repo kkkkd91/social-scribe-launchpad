@@ -1,5 +1,5 @@
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, ReactNode } from "react";
 
 type ThemeType = "light";
 
@@ -14,29 +14,14 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<ThemeType>("light");
-
-  useEffect(() => {
-    // Always set light theme regardless of preferences
-    setTheme("light");
-    applyTheme("light");
-  }, []);
-
-  const applyTheme = (newTheme: ThemeType) => {
-    const root = window.document.documentElement;
-    // Always ensure dark mode is removed
-    root.classList.remove("dark");
-  };
+  // Always use light theme
+  const theme: ThemeType = "light";
 
   return (
     <ThemeContext.Provider
       value={{
         theme,
-        setTheme: (newTheme) => {
-          setTheme(newTheme);
-          localStorage.setItem("socialScribe_theme", newTheme);
-          applyTheme(newTheme);
-        },
+        setTheme: () => {}, // No-op since we only support light theme
       }}
     >
       {children}

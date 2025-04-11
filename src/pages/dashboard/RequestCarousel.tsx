@@ -6,10 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { UploadCloud, CheckCircle } from "lucide-react";
+import { UploadCloud, CheckCircle, Info } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import SliderTypes, { SliderType, SliderTypeOptions } from "@/components/carousel/SliderTypes";
 
 const RequestCarousel = () => {
@@ -95,10 +94,24 @@ const RequestCarousel = () => {
     navigate('/dashboard');
   };
 
+  const getSliderTypeDescription = (type: SliderType) => {
+    switch(type) {
+      case "basic": return "Simple slider with left/right navigation";
+      case "pagination": return "Slider with clickable dot indicators";
+      case "autoplay": return "Automatically transitions between slides";
+      case "multi-slide": return "Shows multiple slides at once";
+      case "fade": return "Smooth fade transition between slides";
+      case "coverflow": return "3D effect with centered slide larger";
+      case "vertical": return "Slides move up and down instead of sideways";
+      case "loop": return "Continuous sliding with no end";
+      default: return "";
+    }
+  };
+
   return (
     <div className="space-y-6 pb-8">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Request a Personalized Carousel Post</h1>
+        <h1 className="text-2xl font-bold mb-2">Request a Personalized Carousel Post</h1>
         <p className="text-muted-foreground">
           We'll deliver a scroll-stopping LinkedIn carousel post within 24 hours based on your request.
         </p>
@@ -107,7 +120,7 @@ const RequestCarousel = () => {
       {!isSubmitted ? (
         <div className="grid md:grid-cols-3 gap-6">
           <div className="md:col-span-2">
-            <Card>
+            <Card className="border shadow-sm">
               <CardContent className="p-6">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
@@ -115,7 +128,7 @@ const RequestCarousel = () => {
                     <Textarea
                       id="topic"
                       placeholder="Describe what you want your carousel to be about..."
-                      className="min-h-[100px]"
+                      className="min-h-[100px] mt-1 input-modern"
                       value={topic}
                       onChange={(e) => setTopic(e.target.value)}
                       required
@@ -127,6 +140,7 @@ const RequestCarousel = () => {
                     <Input
                       id="audience"
                       placeholder="Who is this content for? e.g. Marketing professionals, HR managers, etc."
+                      className="mt-1 input-modern"
                       value={audience}
                       onChange={(e) => setAudience(e.target.value)}
                       required
@@ -141,10 +155,10 @@ const RequestCarousel = () => {
                         onValueChange={setTone}
                         required
                       >
-                        <SelectTrigger id="tone">
+                        <SelectTrigger id="tone" className="mt-1 input-modern">
                           <SelectValue placeholder="Select tone" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-white">
                           <SelectItem value="professional">Professional</SelectItem>
                           <SelectItem value="storytelling">Storytelling</SelectItem>
                           <SelectItem value="witty">Witty</SelectItem>
@@ -160,10 +174,10 @@ const RequestCarousel = () => {
                         onValueChange={setPurpose}
                         required
                       >
-                        <SelectTrigger id="purpose">
+                        <SelectTrigger id="purpose" className="mt-1 input-modern">
                           <SelectValue placeholder="Select purpose" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-white">
                           <SelectItem value="teach">Teach</SelectItem>
                           <SelectItem value="promote">Promote</SelectItem>
                           <SelectItem value="story">Share a Story</SelectItem>
@@ -178,6 +192,7 @@ const RequestCarousel = () => {
                     <Input
                       id="cta"
                       placeholder="What action should readers take? e.g. Subscribe to our newsletter"
+                      className="mt-1 input-modern"
                       value={ctaText}
                       onChange={(e) => setCtaText(e.target.value)}
                       required
@@ -191,10 +206,10 @@ const RequestCarousel = () => {
                       onValueChange={(value) => setSliderType(value as SliderType)}
                       required
                     >
-                      <SelectTrigger id="slider-type">
+                      <SelectTrigger id="slider-type" className="mt-1 input-modern">
                         <SelectValue placeholder="Select slider type" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-white">
                         {SliderTypeOptions.map(option => (
                           <SelectItem key={option.value} value={option.value}>
                             {option.label}
@@ -202,8 +217,9 @@ const RequestCarousel = () => {
                         ))}
                       </SelectContent>
                     </Select>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Select how your carousel slides will transition and behave
+                    <p className="text-xs text-muted-foreground mt-1 flex items-center">
+                      <Info className="h-3 w-3 mr-1" />
+                      {getSliderTypeDescription(sliderType)}
                     </p>
                   </div>
                   
@@ -212,7 +228,7 @@ const RequestCarousel = () => {
                     <div className="mt-1">
                       <Label 
                         htmlFor="file" 
-                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50"
+                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-md cursor-pointer hover:bg-gray-50"
                       >
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                           <UploadCloud className="w-8 h-8 mb-2 text-gray-500" />
@@ -244,9 +260,9 @@ const RequestCarousel = () => {
           </div>
 
           <div className="md:col-span-1">
-            <Card>
+            <Card className="border shadow-sm">
               <CardContent className="p-6">
-                <h2 className="text-xl font-bold mb-4">Preview</h2>
+                <h2 className="text-lg font-bold mb-4">Preview</h2>
                 <div className="mb-4">
                   <SliderTypes 
                     slides={sampleSlides}
@@ -262,7 +278,7 @@ const RequestCarousel = () => {
             <div className="mt-6">
               <Button 
                 size="lg" 
-                className="w-full"
+                className="w-full rounded-md"
                 onClick={handleSubmit}
                 disabled={!topic || !audience || !tone || !purpose || !ctaText}
               >
@@ -272,7 +288,7 @@ const RequestCarousel = () => {
           </div>
         </div>
       ) : (
-        <Card className="max-w-2xl mx-auto">
+        <Card className="max-w-2xl mx-auto border shadow-sm">
           <CardContent className="p-8 text-center">
             <CheckCircle className="h-16 w-16 mx-auto mb-4 text-green-500" />
             <h2 className="text-2xl font-bold mb-4">
@@ -281,7 +297,7 @@ const RequestCarousel = () => {
             <p className="text-lg mb-6">
               You'll receive your personalized carousel via email and in your dashboard within 24 hours.
             </p>
-            <Button size="lg" onClick={handleBackToDashboard}>
+            <Button size="lg" className="rounded-md" onClick={handleBackToDashboard}>
               Back to Dashboard
             </Button>
           </CardContent>

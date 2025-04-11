@@ -153,7 +153,7 @@ export const SliderTypes = ({ slides, sliderType }: SliderProps) => {
         }}
         className={`transition-all ${sliderType === "fade" || sliderType === "coverflow" ? "absolute inset-0" : ""}`}
       >
-        <div className={`p-6 bg-white border rounded-lg shadow h-full`}>
+        <div className={`p-6 bg-white border rounded-md shadow h-full`}>
           <h2 className="text-xl font-bold mb-2 text-slate-800">{slideData.title}</h2>
           <div className="h-1 w-16 my-3 bg-primary"></div>
           <p className="text-gray-700">{slideData.content}</p>
@@ -165,7 +165,7 @@ export const SliderTypes = ({ slides, sliderType }: SliderProps) => {
   return (
     <div className="w-full">
       <div 
-        className={`relative overflow-hidden border rounded-lg ${
+        className={`relative overflow-hidden border rounded-md ${
           sliderType === "vertical" ? "h-[300px]" : ""
         }`}
         ref={slideRef}
@@ -201,14 +201,14 @@ export const SliderTypes = ({ slides, sliderType }: SliderProps) => {
 
         {/* Navigation Arrows */}
         <button 
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full hover:bg-primary/90 transition-colors"
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-md hover:bg-primary/90 transition-colors"
           onClick={handlePrev}
           disabled={sliderType === "loop" ? false : currentSlide === 0}
         >
           <ArrowLeft size={20} />
         </button>
         <button 
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-full hover:bg-primary/90 transition-colors"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-md hover:bg-primary/90 transition-colors"
           onClick={handleNext}
           disabled={
             sliderType === "loop" 
@@ -239,7 +239,7 @@ export const SliderTypes = ({ slides, sliderType }: SliderProps) => {
         {/* Autoplay Controls */}
         {sliderType === "autoplay" && (
           <button 
-            className="absolute left-4 bottom-4 bg-primary text-white p-2 rounded-full hover:bg-primary/90 transition-colors"
+            className="absolute left-4 bottom-4 bg-primary text-white p-2 rounded-md hover:bg-primary/90 transition-colors"
             onClick={handleTogglePlay}
           >
             {isPlaying ? <Pause size={20} /> : <Play size={20} />}

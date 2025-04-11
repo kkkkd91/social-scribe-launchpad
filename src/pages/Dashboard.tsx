@@ -39,7 +39,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       {/* Sidebar - hidden on mobile */}
       <div className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
         <DashboardSidebar />
@@ -50,19 +50,21 @@ const Dashboard = () => {
         <DashboardHeader toggleSidebar={toggleSidebar} />
         
         <div className="flex-1 overflow-auto p-4 md:p-6">
-          <Routes>
-            <Route index element={<DashboardHome />} />
-            <Route path="create" element={<CreatePost />} />
-            <Route path="posts" element={<PostLibrary />} />
-            <Route path="scraper" element={<Scraper />} />
-            <Route path="writer" element={<AIWriter />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="team" element={<Team />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="billing" element={<Billing />} />
-            <Route path="subscription" element={<SubscriptionPage />} />
-            <Route path="request-carousel" element={<RequestCarousel />} />
-          </Routes>
+          <div className="mx-auto max-w-7xl">
+            <Routes>
+              <Route index element={<DashboardHome />} />
+              <Route path="create" element={<CreatePost />} />
+              <Route path="posts" element={<PostLibrary />} />
+              <Route path="scraper" element={<Scraper />} />
+              <Route path="writer" element={<AIWriter />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="team" element={<Team />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="billing" element={<Billing />} />
+              <Route path="subscription" element={<SubscriptionPage />} />
+              <Route path="request-carousel" element={<RequestCarousel />} />
+            </Routes>
+          </div>
         </div>
       </div>
     </div>
