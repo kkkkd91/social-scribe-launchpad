@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,40 +6,40 @@
 @layer base {
   :root {
     /* Primary Blues */
-    --primary: 210 100% 44%; /* #0072CE LinkedIn blue */
+    --primary: 210 100% 44%; /* #0070E0 */
     --primary-foreground: 0 0% 100%;
     
     /* Secondary Purples */
-    --secondary: 252 100% 68%; /* #824FF8 Light purple */
+    --secondary: 252 100% 68%; /* #635BFF */
     --secondary-foreground: 0 0% 100%;
     
     /* Accent Greens */
-    --accent: 164 96% 40%; /* #00B183 Bright green */
+    --accent: 164 96% 40%; /* #12B76A */
     --accent-foreground: 0 0% 100%;
     
     /* Neutral Tones */
-    --background: 0 0% 100%; /* #FFFFFF Pure white */
-    --foreground: 222 35% 13%; /* #162238 Dark blue-gray */
+    --background: 0 0% 100%; /* #FFFFFF */
+    --foreground: 222 35% 13%; /* #0A2540 */
     --card: 0 0% 100%;
     --card-foreground: 222 35% 13%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 35% 13%;
-    --muted: 220 13% 91%; /* #E9EDF3 Light gray */
+    --muted: 220 13% 91%; /* #E6E6E6 */
     --muted-foreground: 215 22% 48%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
     --ring: 210 100% 44%;
     
     /* Complementary Colors */
-    --destructive: 0 100% 60%; /* #FF3B30 Red */
+    --destructive: 0 100% 60%; /* #FF9E80 */
     --destructive-foreground: 0 0% 100%;
     
     /* Sidebar */
-    --sidebar-background: 210 100% 44%; /* Using primary blue */
+    --sidebar-background: 210 100% 44%; /* #0070E0 */
     --sidebar-foreground: 222 35% 13%;
     --sidebar-primary: 210 100% 44%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 252 100% 68%; /* Using secondary purple instead of accent green */
+    --sidebar-accent: 252 100% 68%; /* #635BFF */
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 210 100% 44%;

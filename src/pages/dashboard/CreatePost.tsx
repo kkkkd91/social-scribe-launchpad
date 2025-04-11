@@ -26,7 +26,6 @@ const CreatePost = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   
-  // Sample carousel posts data
   const sampleCarousels = [
     {
       id: 1,
@@ -144,10 +143,8 @@ const CreatePost = () => {
     }
   ];
   
-  // Simulated remaining credits - in a real app, this would come from your backend
   const remainingCredits = 3;
 
-  // Effect to handle navigation to carousel request page
   useEffect(() => {
     const hash = window.location.hash;
     if (hash === '#carousel') {
@@ -169,19 +166,6 @@ const CreatePost = () => {
   const handlePreviewClose = () => {
     setPreviewCarousel(null);
     setCurrentSlide(0);
-  };
-
-  const nextSlide = () => {
-    const carousel = sampleCarousels.find(c => c.id === previewCarousel);
-    if (carousel && currentSlide < carousel.slideContent.length - 1) {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
-
-  const prevSlide = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1);
-    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,10 +196,8 @@ const CreatePost = () => {
     
     setGeneratingImage(true);
     
-    // Simulate AI image generation
     setTimeout(() => {
       setGeneratingImage(false);
-      // Placeholder image URL - in a real implementation, this would be the response from your AI image service
       setUploadedImage("https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&h=500");
       toast({
         title: "Success",
@@ -230,7 +212,6 @@ const CreatePost = () => {
       return;
     }
     
-    // Post creation logic would go here
     toast({
       title: "Success",
       description: "Your post has been created successfully"
@@ -424,8 +405,30 @@ const CreatePost = () => {
           <div className="py-8">
             <h3 className="text-2xl font-semibold mb-2">LinkedIn Carousel Posts</h3>
             <p className="text-muted-foreground mb-8">
-              Create eye-catching multi-slide carousels that showcase your expertise and drive engagement
+              Choose a carousel style below and create eye-catching multi-slide content that drives engagement
             </p>
+            
+            <div className="mb-8">
+              <Label htmlFor="slider-type" className="text-lg font-medium mb-2 block">Select Carousel Type</Label>
+              <Select 
+                value={sliderType} 
+                onValueChange={(value) => setSliderType(value as SliderType)}
+              >
+                <SelectTrigger id="slider-type" className="w-full max-w-md">
+                  <SelectValue placeholder="Select slider type" />
+                </SelectTrigger>
+                <SelectContent>
+                  {SliderTypeOptions.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-sm text-muted-foreground mt-2">
+                Each style offers different layout options and transitions
+              </p>
+            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {sampleCarousels.map(carousel => (
@@ -461,7 +464,6 @@ const CreatePost = () => {
                 </Card>
               ))}
               
-              {/* Sample Carousel Post 4 */}
               <Card className="overflow-hidden transition-all hover:shadow-md">
                 <div className="aspect-video bg-gradient-to-br from-emerald-500 to-teal-500 relative">
                   <div className="absolute inset-0 flex items-center justify-center text-white">
@@ -487,7 +489,6 @@ const CreatePost = () => {
                 </CardContent>
               </Card>
               
-              {/* Sample Carousel Post 5 */}
               <Card className="overflow-hidden transition-all hover:shadow-md">
                 <div className="aspect-video bg-gradient-to-r from-slate-700 to-slate-900 relative">
                   <div className="absolute inset-0 flex items-center justify-center text-white">
@@ -513,7 +514,6 @@ const CreatePost = () => {
                 </CardContent>
               </Card>
               
-              {/* Sample Carousel Post 6 */}
               <Card className="overflow-hidden transition-all hover:shadow-md">
                 <div className="aspect-video bg-gradient-to-br from-rose-500 to-red-600 relative">
                   <div className="absolute inset-0 flex items-center justify-center text-white">
@@ -577,7 +577,6 @@ const CreatePost = () => {
         </TabsContent>
       </Tabs>
       
-      {/* Preview Dialog for Carousel Samples */}
       <Dialog open={previewCarousel !== null} onOpenChange={() => handlePreviewClose()}>
         <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
           {previewCarousel !== null && (() => {
@@ -648,7 +647,6 @@ const CreatePost = () => {
         </DialogContent>
       </Dialog>
       
-      {/* Subscription Prompt Sheet */}
       <Sheet open={showSubscriptionPrompt} onOpenChange={setShowSubscriptionPrompt}>
         <SheetContent className="sm:max-w-md">
           <SheetHeader>

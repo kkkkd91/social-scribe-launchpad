@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
@@ -308,4 +309,4 @@ export const SliderTypes = ({ slides, color, textColor, accentColor, sliderType 
   );
 };
 
-export default SliderTypes; 
+export default SliderTypes;
