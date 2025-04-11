@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import authService, { AuthResponse } from '../services/auth.service';
-import { toast } from "@/lib/toast";
+import { toast } from "react-hot-toast";
 
 interface AuthContextType {
   user: AuthResponse['user'] | null;
@@ -9,6 +9,9 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (firstName: string, lastName: string, email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => void;
+  loginWithLinkedIn: () => void;
+  handleOAuthCallback: (token: string) => Promise<void>;
   logout: () => void;
   clearError: () => void;
 }
@@ -56,9 +59,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const data = await authService.login({ email, password });
       setUser(data.user);
       setIsAuthenticated(true);
+      toast.success("Login successful!");
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || 'Login failed. Please try again.';
       setError(errorMessage);
+      toast.error(errorMessage);
       throw new Error(errorMessage);
     } finally {
       setLoading(false);
@@ -72,9 +77,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const data = await authService.register({ firstName, lastName, email, password });
       setUser(data.user);
       setIsAuthenticated(true);
+      toast.success("Registration successful!");
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || 'Registration failed. Please try again.';
       setError(errorMessage);
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loginWithGoogle = () => {
+    const googleAuthUrl = authService.getGoogleAuthUrl();
+    window.location.href = googleAuthUrl;
+  };
+
+  const loginWithLinkedIn = () => {
+    const linkedInAuthUrl = authService.getLinkedInAuthUrl();
+    window.location.href = linkedInAuthUrl;
+  };
+
+  const handleOAuthCallback = async (token: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await authService.handleOAuthCallback(token);
+      setUser(data.user);
+      setIsAuthenticated(true);
+      toast.success("OAuth login successful!");
+      return data;
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.error || 'OAuth login failed. Please try again.';
+      setError(errorMessage);
+      toast.error(errorMessage);
       throw new Error(errorMessage);
     } finally {
       setLoading(false);
@@ -85,6 +121,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     authService.logout();
     setUser(null);
     setIsAuthenticated(false);
+    toast.success("Logged out successfully");
   };
 
   const clearError = () => {
@@ -100,6 +137,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isAuthenticated,
         login,
         register,
+        loginWithGoogle,
+        loginWithLinkedIn,
+        handleOAuthCallback,
         logout,
         clearError,
       }}
