@@ -147,12 +147,10 @@ const Billing = () => {
                 <Button 
                   className={`w-full ${plan.popular ? "bg-primary hover:bg-primary/90" : ""}`}
                   variant={plan.popular ? "default" : "outline"}
+                  as={Link}
                   to="/dashboard/subscription"
-                  // Fixed: removed the "as" property and used Link component directly
                 >
-                  <Link to="/dashboard/subscription" className="w-full flex justify-center">
-                    {plan.cta}
-                  </Link>
+                  {plan.cta}
                 </Button>
               )}
             </CardFooter>
