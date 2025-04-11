@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -14,9 +15,6 @@ import Pricing from "@/pages/Pricing";
 import Testimonials from "@/pages/Testimonials";
 import Celebrate from "@/pages/Celebrate";
 import NotFound from "@/pages/NotFound";
-import OAuthCallback from "@/components/auth/OAuthCallback";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
 
 const App = () => {
   return (
@@ -31,9 +29,6 @@ const App = () => {
                 <Route path="/features" element={<Features />} />
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/testimonials" element={<Testimonials />} />
-                <Route path="/auth/callback" element={<OAuthCallback />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
 
                 {/* Protected routes */}
                 <Route element={<RequireAuth />}>

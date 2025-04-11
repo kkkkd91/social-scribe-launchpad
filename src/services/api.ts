@@ -9,7 +9,6 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // Important for OAuth cookies
 });
 
 // Request interceptor for adding auth token
@@ -52,14 +51,10 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        // Clear tokens on refresh error
+        // If refresh fails, redirect to login
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        
-        // If refresh fails, redirect to login except for OAuth
-        if (!originalRequest.url?.includes('/auth/oauth')) {
-          window.location.href = '/login';
-        }
+        window.location.href = '/login';
         return Promise.reject(refreshError);
       }
     }

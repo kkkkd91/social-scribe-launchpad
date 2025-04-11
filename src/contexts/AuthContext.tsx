@@ -1,18 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import authService, { AuthResponse } from '../services/auth.service';
-import { toast } from "react-hot-toast";
+import { toast } from "@/lib/toast";
 
 interface AuthContextType {
   user: AuthResponse['user'] | null;
   loading: boolean;
   error: string | null;
   isAuthenticated: boolean;
-  onboardingComplete: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (firstName: string, lastName: string, email: string, password: string) => Promise<void>;
-  loginWithGoogle: () => void;
-  loginWithLinkedIn: () => void;
-  handleOAuthCallback: (token: string) => Promise<void>;
   logout: () => void;
   clearError: () => void;
 }
@@ -28,7 +24,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [onboardingComplete, setOnboardingComplete] = useState<boolean>(false);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -38,7 +33,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           const { user } = await authService.getCurrentUser();
           setUser(user);
           setIsAuthenticated(true);
-          setOnboardingComplete(user.onboardingStatus === 'completed');
         } catch (err) {
           // If error getting user, tokens might be invalid
           authService.logout();
@@ -55,13 +49,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loadUser();
   }, []);
 
-  // Update onboardingComplete whenever user changes
-  useEffect(() => {
-    if (user) {
-      setOnboardingComplete(user.onboardingStatus === 'completed');
-    }
-  }, [user]);
-
   const login = async (email: string, password: string) => {
     try {
       setLoading(true);
@@ -69,11 +56,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const data = await authService.login({ email, password });
       setUser(data.user);
       setIsAuthenticated(true);
-      toast.success("Login successful!");
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || 'Login failed. Please try again.';
       setError(errorMessage);
-      toast.error(errorMessage);
       throw new Error(errorMessage);
     } finally {
       setLoading(false);
@@ -87,40 +72,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const data = await authService.register({ firstName, lastName, email, password });
       setUser(data.user);
       setIsAuthenticated(true);
-      toast.success("Registration successful!");
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || 'Registration failed. Please try again.';
       setError(errorMessage);
-      toast.error(errorMessage);
-      throw new Error(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loginWithGoogle = () => {
-    const googleAuthUrl = authService.getGoogleAuthUrl();
-    window.location.href = googleAuthUrl;
-  };
-
-  const loginWithLinkedIn = () => {
-    const linkedInAuthUrl = authService.getLinkedInAuthUrl();
-    window.location.href = linkedInAuthUrl;
-  };
-
-  const handleOAuthCallback = async (token: string) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await authService.handleOAuthCallback(token);
-      setUser(data.user);
-      setIsAuthenticated(true);
-      toast.success("OAuth login successful!");
-      return data;
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.error || 'OAuth login failed. Please try again.';
-      setError(errorMessage);
-      toast.error(errorMessage);
       throw new Error(errorMessage);
     } finally {
       setLoading(false);
@@ -131,7 +85,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     authService.logout();
     setUser(null);
     setIsAuthenticated(false);
-    toast.success("Logged out successfully");
   };
 
   const clearError = () => {
@@ -145,12 +98,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         loading,
         error,
         isAuthenticated,
-        onboardingComplete,
         login,
         register,
-        loginWithGoogle,
-        loginWithLinkedIn,
-        handleOAuthCallback,
         logout,
         clearError,
       }}
