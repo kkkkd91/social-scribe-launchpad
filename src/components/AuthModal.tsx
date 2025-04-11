@@ -67,8 +67,8 @@ const AuthModal = ({ isOpen, onClose, initialView = "login", onLinkedInLogin }: 
   
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex justify-end">
-      <div className="bg-background dark:bg-gray-900 w-full max-w-md h-full overflow-y-auto animate-slide-in-right">
-        <div className="flex justify-between items-center p-6 border-b">
+      <div className="bg-white w-full max-w-md h-full overflow-y-auto animate-slide-in-right">
+        <div className="flex justify-between items-center p-6 border-b border-gray-100">
           <Logo />
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X size={20} />
@@ -76,7 +76,7 @@ const AuthModal = ({ isOpen, onClose, initialView = "login", onLinkedInLogin }: 
         </div>
         
         <div className="p-6">
-          <h2 className="text-2xl font-bold mb-6">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">
             {view === "login" ? "Welcome back" : "Create your account"}
           </h2>
           

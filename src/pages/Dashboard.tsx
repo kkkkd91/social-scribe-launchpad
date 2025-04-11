@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -8,13 +7,13 @@ import DashboardHome from "@/pages/dashboard/DashboardHome";
 import CreatePost from "@/pages/dashboard/CreatePost";
 import PostLibrary from "@/pages/dashboard/PostLibrary";
 import Scraper from "@/pages/dashboard/Scraper";
-import InspirationVault from "@/pages/dashboard/InspirationVault";
 import AIWriter from "@/pages/dashboard/AIWriter";
 import Analytics from "@/pages/dashboard/Analytics";
 import Team from "@/pages/dashboard/Team";
 import Settings from "@/pages/dashboard/Settings";
 import Billing from "@/pages/dashboard/Billing";
 import SubscriptionPage from "@/pages/dashboard/SubscriptionPage";
+import RequestCarousel from "@/pages/dashboard/RequestCarousel";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -55,13 +54,13 @@ const Dashboard = () => {
             <Route path="create" element={<CreatePost />} />
             <Route path="posts" element={<PostLibrary />} />
             <Route path="scraper" element={<Scraper />} />
-            <Route path="inspiration" element={<InspirationVault />} />
             <Route path="writer" element={<AIWriter />} />
             <Route path="analytics" element={<Analytics />} />
             <Route path="team" element={<Team />} />
             <Route path="settings" element={<Settings />} />
             <Route path="billing" element={<Billing />} />
             <Route path="subscription" element={<SubscriptionPage />} />
+            <Route path="request-carousel" element={<RequestCarousel />} />
           </Routes>
         </div>
       </div>
