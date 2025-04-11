@@ -39,17 +39,23 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
-      {/* Sidebar - hidden on mobile */}
-      <div className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
+    <div className="flex h-screen overflow-hidden bg-muted/30">
+      {/* Sidebar */}
+      <div 
+        className={`fixed inset-y-0 left-0 z-20 w-[var(--sidebar-width)] transform transition-transform duration-300 ease-in-out md:translate-x-0 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
         <DashboardSidebar />
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <DashboardHeader toggleSidebar={toggleSidebar} />
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${
+        sidebarOpen ? 'md:ml-[var(--sidebar-width)]' : 'ml-0'
+      }`}>
+        <DashboardHeader toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
         
-        <div className="flex-1 overflow-auto p-4 md:p-6">
+        <main className="flex-1 overflow-auto p-4 md:p-6 pb-24">
           <div className="mx-auto max-w-7xl">
             <Routes>
               <Route index element={<DashboardHome />} />
@@ -65,7 +71,7 @@ const Dashboard = () => {
               <Route path="request-carousel" element={<RequestCarousel />} />
             </Routes>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

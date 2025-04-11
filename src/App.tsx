@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -44,7 +45,19 @@ const App = () => {
               </Routes>
             </Router>
             
-            <Toaster position="bottom-right" />
+            <Toaster 
+              position="bottom-right"
+              toastOptions={{
+                style: {
+                  background: '#fff',
+                  color: '#0A1629',
+                  border: '1px solid #E6E8EB',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+                  padding: '12px 16px',
+                  borderRadius: '6px',
+                }
+              }}  
+            />
           </WorkspaceProvider>
         </OnboardingProvider>
       </AuthProvider>

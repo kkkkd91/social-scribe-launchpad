@@ -1,8 +1,8 @@
 
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import {
-  Home,
+  LayoutDashboard,
   PenSquare,
   FileText,
   Search,
@@ -14,20 +14,26 @@ import {
   ChevronRight,
   Menu,
   ArrowLeft,
-  Grid3X3,
+  Layers,
+  Trophy,
+  Star,
+  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/Logo";
 import { useWorkspace } from "@/contexts/WorkspaceContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const DashboardSidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { currentWorkspace } = useWorkspace();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const navItems = [
     { 
-      icon: Home, 
+      icon: LayoutDashboard, 
       label: "Dashboard", 
       path: "/dashboard" 
     },
@@ -52,7 +58,7 @@ const DashboardSidebar = () => {
       path: "/dashboard/writer" 
     },
     { 
-      icon: Grid3X3, 
+      icon: Layers, 
       label: "Carousels", 
       path: "/dashboard/request-carousel" 
     },
@@ -90,28 +96,32 @@ const DashboardSidebar = () => {
     navigate('/dashboard/create');
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <div 
-      className={`bg-white shadow-md h-screen transition-all duration-300 flex flex-col border-r ${
-        isCollapsed ? "w-[70px]" : "w-64"
-      }`}
+      className={`h-screen transition-all duration-300 flex flex-col bg-sidebar-background border-r border-sidebar-border`}
     >
-      <div className="py-5 px-4 border-b flex items-center justify-between">
+      <div className="p-4 border-b border-sidebar-border flex items-center justify-between">
         <Logo showText={!isCollapsed} className={isCollapsed ? "justify-center" : ""} />
         <Button 
           variant="ghost" 
           size="icon" 
           onClick={() => setIsCollapsed(!isCollapsed)} 
-          className="text-primary hover:bg-primary/10 rounded-md"
+          className="text-muted-foreground hover:text-primary hover:bg-sidebar-item-active rounded-md"
         >
-          {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
+          {isCollapsed ? <ChevronRight className="h-5 w-5" /> : <ArrowLeft className="h-5 w-5" />}
         </Button>
       </div>
       
       <div className="p-3">
         <Button
           onClick={handleCreateClick}
-          className={`w-full bg-primary hover:bg-primary/90 rounded-md shadow py-2.5 transition-all ${
+          size="lg"
+          className={`w-full rounded-md shadow py-2.5 transition-all ${
             isCollapsed ? "px-0" : "px-4"
           }`}
         >
@@ -125,63 +135,70 @@ const DashboardSidebar = () => {
         </Button>
         
         <div className="mt-6">
-          <div className={isCollapsed ? "" : "px-3 py-2"}>
-            {!isCollapsed && <p className="text-xs font-medium text-muted-foreground mb-2">NAVIGATION</p>}
+          <div className={isCollapsed ? "mb-2" : "px-3 mb-2"}>
+            {!isCollapsed && <p className="text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">Navigation</p>}
           </div>
           
           <nav className="space-y-1">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center px-3 py-2.5 rounded-md transition-colors ${
-                    isActive
-                      ? "bg-primary/10 text-primary font-medium"
-                      : "text-gray-700 hover:bg-gray-50"
-                  } ${isCollapsed ? "justify-center" : ""}`
-                }
-                end={item.path === "/dashboard"}
-              >
-                <item.icon size={18} className={isCollapsed ? "" : "mr-3"} />
-                {!isCollapsed && <span className="text-sm">{item.label}</span>}
-              </NavLink>
-            ))}
+            {navItems.map((item) => {
+              const isActive = 
+                item.path === "/dashboard" 
+                  ? location.pathname === "/dashboard" 
+                  : location.pathname.startsWith(item.path);
+                  
+              return (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `${isCollapsed ? "justify-center px-2" : "sidebar-item"} ${
+                      isActive ? "active" : ""
+                    }`
+                  }
+                  end={item.path === "/dashboard"}
+                >
+                  <item.icon size={18} className={isCollapsed ? "" : ""} />
+                  {!isCollapsed && <span className="text-sm">{item.label}</span>}
+                </NavLink>
+              );
+            })}
           </nav>
           
-          <div className={`mt-6 ${isCollapsed ? "" : "px-3 py-2"}`}>
-            {!isCollapsed && <p className="text-xs font-medium text-muted-foreground mb-2">ACCOUNT</p>}
+          <div className={`mt-6 ${isCollapsed ? "mb-2" : "px-3 mb-2"}`}>
+            {!isCollapsed && <p className="text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">Account</p>}
           </div>
           
           <nav className="space-y-1">
-            {settingsItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center px-3 py-2.5 rounded-md transition-colors ${
-                    isActive
-                      ? "bg-primary/10 text-primary font-medium"
-                      : "text-gray-700 hover:bg-gray-50"
-                  } ${isCollapsed ? "justify-center" : ""}`
-                }
-              >
-                <item.icon size={18} className={isCollapsed ? "" : "mr-3"} />
-                {!isCollapsed && <span className="text-sm">{item.label}</span>}
-              </NavLink>
-            ))}
+            {settingsItems.map((item) => {
+              const isActive = location.pathname.startsWith(item.path);
+              
+              return (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `${isCollapsed ? "justify-center px-2" : "sidebar-item"} ${
+                      isActive ? "active" : ""
+                    }`
+                  }
+                >
+                  <item.icon size={18} className={isCollapsed ? "" : ""} />
+                  {!isCollapsed && <span className="text-sm">{item.label}</span>}
+                </NavLink>
+              );
+            })}
           </nav>
         </div>
       </div>
       
-      <div className="mt-auto p-4 border-t">
-        {!isCollapsed && (
-          <div className="rounded-lg bg-gray-50 p-3">
+      <div className="mt-auto p-4 border-t border-sidebar-border">
+        {!isCollapsed ? (
+          <div className="rounded-lg bg-sidebar-item-active p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                <div className="text-xs font-medium text-gray-700">
-                  Free plan
+                <div className="h-3 w-3 rounded-full bg-success"></div>
+                <div className="text-xs font-medium text-foreground/80">
+                  {currentWorkspace?.type === "team" ? "Team Plan" : "Free Plan"}
                 </div>
               </div>
               <span className="text-xs font-semibold text-primary">15 credits</span>
@@ -195,6 +212,15 @@ const DashboardSidebar = () => {
               Upgrade Plan
             </Button>
           </div>
+        ) : (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleLogout}
+            className="w-full flex justify-center text-muted-foreground hover:text-destructive"
+          >
+            <LogOut size={18} />
+          </Button>
         )}
       </div>
     </div>
