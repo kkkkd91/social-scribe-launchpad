@@ -1,152 +1,107 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import authService, { AuthResponse } from '../services/auth.service';
 import { toast } from "@/lib/toast";
 
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-}
-
 interface AuthContextType {
-  user: User | null;
+  user: AuthResponse['user'] | null;
+  loading: boolean;
+  error: string | null;
   isAuthenticated: boolean;
-  isLoading: boolean;
-  onboardingComplete: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  register: (firstName: string, lastName: string, email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<void>;
+  register: (firstName: string, lastName: string, email: string, password: string) => Promise<void>;
   logout: () => void;
-  completeOnboarding: () => void;
+  clearError: () => void;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  isAuthenticated: false,
-  isLoading: true,
-  onboardingComplete: false,
-  login: async () => false,
-  register: async () => false,
-  logout: () => {},
-  completeOnboarding: () => {},
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [onboardingComplete, setOnboardingComplete] = useState(false);
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<AuthResponse['user'] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("socialScribe_user");
-    const savedOnboarding = localStorage.getItem("socialScribe_onboardingComplete");
-    
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    
-    if (savedOnboarding === "true") {
-      setOnboardingComplete(true);
-    }
-    
-    setIsLoading(false);
+    const loadUser = async () => {
+      if (authService.isAuthenticated()) {
+        try {
+          setLoading(true);
+          const { user } = await authService.getCurrentUser();
+          setUser(user);
+          setIsAuthenticated(true);
+        } catch (err) {
+          // If error getting user, tokens might be invalid
+          authService.logout();
+          setUser(null);
+          setIsAuthenticated(false);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+    loadUser();
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string) => {
     try {
-      setIsLoading(true);
-      
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      
-      if (email && password) {
-        const newUser = {
-          id: Math.random().toString(36).substring(2, 9),
-          firstName: "Demo",
-          lastName: "User",
-          email,
-        };
-        
-        setUser(newUser);
-        localStorage.setItem("socialScribe_user", JSON.stringify(newUser));
-        
-        // Check if the user has completed onboarding before
-        const savedOnboarding = localStorage.getItem("socialScribe_onboardingComplete");
-        setOnboardingComplete(savedOnboarding === "true");
-        
-        toast.success("Login successful");
-        return true;
-      }
-      
-      toast.error("Invalid credentials");
-      return false;
-    } catch (error) {
-      console.error("Login error:", error);
-      toast.error("Login failed");
-      return false;
+      setLoading(true);
+      setError(null);
+      const data = await authService.login({ email, password });
+      setUser(data.user);
+      setIsAuthenticated(true);
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.error || 'Login failed. Please try again.';
+      setError(errorMessage);
+      throw new Error(errorMessage);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  const register = async (
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string
-  ): Promise<boolean> => {
+  const register = async (firstName: string, lastName: string, email: string, password: string) => {
     try {
-      setIsLoading(true);
-      
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      
-      if (firstName && lastName && email && password) {
-        const newUser = {
-          id: Math.random().toString(36).substring(2, 9),
-          firstName,
-          lastName,
-          email,
-        };
-        
-        setUser(newUser);
-        setOnboardingComplete(false);
-        localStorage.setItem("socialScribe_user", JSON.stringify(newUser));
-        localStorage.removeItem("socialScribe_onboardingComplete");
-        
-        toast.success("Registration successful");
-        return true;
-      }
-      
-      toast.error("Please fill all required fields");
-      return false;
-    } catch (error) {
-      console.error("Registration error:", error);
-      toast.error("Registration failed");
-      return false;
+      setLoading(true);
+      setError(null);
+      const data = await authService.register({ firstName, lastName, email, password });
+      setUser(data.user);
+      setIsAuthenticated(true);
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.error || 'Registration failed. Please try again.';
+      setError(errorMessage);
+      throw new Error(errorMessage);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   const logout = () => {
+    authService.logout();
     setUser(null);
-    localStorage.removeItem("socialScribe_user");
-    toast.success("Logged out successfully");
+    setIsAuthenticated(false);
   };
 
-  const completeOnboarding = () => {
-    setOnboardingComplete(true);
-    localStorage.setItem("socialScribe_onboardingComplete", "true");
+  const clearError = () => {
+    setError(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        isAuthenticated: !!user,
-        isLoading,
-        onboardingComplete,
+        loading,
+        error,
+        isAuthenticated,
         login,
         register,
         logout,
-        completeOnboarding,
+        clearError,
       }}
     >
       {children}
@@ -154,4 +109,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};

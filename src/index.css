@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -74,7 +73,7 @@
   }
   
   .sidebar-item.active {
-    @apply bg-sidebar-item-active text-primary font-medium;
+    @apply bg-[hsl(var(--sidebar-item-active))] text-primary font-medium;
   }
   
   .sidebar-item:hover:not(.active) {
