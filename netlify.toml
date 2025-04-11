@@ -2,9 +2,6 @@
   command = "CI=false npm run build"
   publish = "dist"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
 [build.environment]
   NODE_VERSION = "18"
   NPM_VERSION = "9"
