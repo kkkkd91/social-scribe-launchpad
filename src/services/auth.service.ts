@@ -56,6 +56,31 @@ class AuthService {
   }
 
   /**
+   * Get Google OAuth URL
+   */
+  getGoogleAuthUrl(): string {
+    // Use the complete URL to avoid CORS issues
+    return `${api.defaults.baseURL}/auth/google`;
+  }
+
+  /**
+   * Get LinkedIn OAuth URL
+   */
+  getLinkedInAuthUrl(): string {
+    // Use the complete URL to avoid CORS issues
+    return `${api.defaults.baseURL}/auth/linkedin`;
+  }
+
+  /**
+   * Handle OAuth callback
+   */
+  async handleOAuthCallback(token: string): Promise<AuthResponse> {
+    const response = await api.post('/auth/oauth/callback', { token });
+    this.setTokens(response.data.data.tokens);
+    return response.data.data;
+  }
+
+  /**
    * Verify email with code
    */
   async verifyEmail(data: VerifyEmailData): Promise<{ user: AuthResponse['user'] }> {
