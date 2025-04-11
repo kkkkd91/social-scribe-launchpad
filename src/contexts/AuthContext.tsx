@@ -7,6 +7,7 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   isAuthenticated: boolean;
+  onboardingComplete: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (firstName: string, lastName: string, email: string, password: string) => Promise<void>;
   loginWithGoogle: () => void;
@@ -27,6 +28,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [onboardingComplete, setOnboardingComplete] = useState<boolean>(false);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -36,6 +38,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           const { user } = await authService.getCurrentUser();
           setUser(user);
           setIsAuthenticated(true);
+          setOnboardingComplete(user.onboardingStatus === 'completed');
         } catch (err) {
           // If error getting user, tokens might be invalid
           authService.logout();
@@ -51,6 +54,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     loadUser();
   }, []);
+
+  // Update onboardingComplete whenever user changes
+  useEffect(() => {
+    if (user) {
+      setOnboardingComplete(user.onboardingStatus === 'completed');
+    }
+  }, [user]);
 
   const login = async (email: string, password: string) => {
     try {
@@ -135,6 +145,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         loading,
         error,
         isAuthenticated,
+        onboardingComplete,
         login,
         register,
         loginWithGoogle,
