@@ -59,6 +59,7 @@ class AuthService {
    * Get Google OAuth URL
    */
   getGoogleAuthUrl(): string {
+    // Use the complete URL to avoid CORS issues
     return `${api.defaults.baseURL}/auth/google`;
   }
 
@@ -66,6 +67,7 @@ class AuthService {
    * Get LinkedIn OAuth URL
    */
   getLinkedInAuthUrl(): string {
+    // Use the complete URL to avoid CORS issues
     return `${api.defaults.baseURL}/auth/linkedin`;
   }
 
