@@ -45,7 +45,6 @@ export default defineConfig(({ mode }) => ({
     include: ['react', 'react-dom', 'react-router-dom', 'axios']
   },
   esbuild: {
-    jsxInject: "import React from 'react'",
     logOverride: { 'this-is-undefined-in-esm': 'silent' }
   }
 }));
