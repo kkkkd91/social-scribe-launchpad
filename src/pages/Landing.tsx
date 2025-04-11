@@ -206,7 +206,7 @@ const Landing = () => {
             <a href="#how-it-works" className="text-foreground/80 hover:text-primary transition-colors">How It Works</a>
             <a href="#pricing" className="text-foreground/80 hover:text-primary transition-colors">Pricing</a>
             <a href="#testimonials" className="text-foreground/80 hover:text-primary transition-colors">Testimonials</a>
-            <a href="/features" className="text-foreground/80 hover:text-primary transition-colors">All Features</a>
+            <a href="/carousels" className="text-foreground/80 hover:text-primary transition-colors">Carousels</a>
           </div>
           
           <div className="flex items-center gap-3">

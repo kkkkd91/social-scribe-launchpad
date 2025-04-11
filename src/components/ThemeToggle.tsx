@@ -1,5 +1,5 @@
 
-import { Sun, Moon } from "lucide-react";
+import { Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -11,7 +11,7 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    setTheme("light");
   };
 
   return (
@@ -19,14 +19,10 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
       variant="ghost"
       size="icon"
       className={className}
-      aria-label={`${theme === 'light' ? 'Light' : 'Dark'} theme enabled`}
+      aria-label="Light theme enabled"
       onClick={toggleTheme}
     >
-      {theme === "light" ? (
-        <Sun className="h-5 w-5" />
-      ) : (
-        <Moon className="h-5 w-5" />
-      )}
+      <Sun className="h-5 w-5" />
     </Button>
   );
 };
